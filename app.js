@@ -4,8 +4,12 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
 const flash = require('connect-flash');
+const mongoose = require('mongoose');
 
-const website = require('./routes/website')
+const website = require('./routes/website');
+const admin = require('./routes/admin');
+const passport = require('passport')
+require('./config/auth');(passport)
 
 const app = express();
 
@@ -17,6 +21,8 @@ app.use(session({
     saveUninitialized: true
 }))
 
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(flash());
 
 //Middleware
@@ -39,13 +45,23 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set("views", "./views");
 
+//Mongoose
+
+mongoose.Promise = global.Promise
+mongoose.connect('').then(function(){
+    console.log('Conectado ao mongo...')
+}).catch(function(err){
+    console.log('Erro ao conectar com mongo.')
+})
+
 //Public
 
 app.use(express.static(path.join(__dirname, 'public')))
 
 //routes
 
-//app.use('/web', website)
+app.route('/website', website)
+app.route('/admin', admin)
 
 app.get('/', (req, res) => {
     res.render('index')
