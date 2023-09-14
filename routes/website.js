@@ -7,4 +7,8 @@ router.get('/cadastro', (req, res) => {
     res.render('commom-area/register')
 })
 
+router.get('/login', (req, res) => {
+    res.render('commom-area/login')
+})
+
 module.exports = router

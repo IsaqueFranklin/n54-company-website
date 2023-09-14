@@ -12,34 +12,77 @@ require('../models/user')
 const User = mongoose.model('users')
 
 
-router.post('/cadastro', async(req, res) => {
-    try{
-        const {email, password} = req.body;
-        firebase.auth().createUserEmailAndPassword(email, password).then((userCredential) => {
-            // Signed in
-            var user = userCredential.user;
-            console.log(user);
-        }).catch((error) => {
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            console.log(error);
-        });
-        res.redirect('/criarwebsite');
-    } catch(e) {
-        res.redirect('cadastro');
+router.post('/cadastro', (req, res) => {
+    var erros = []
+
+    /*if(!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null){
+        erros.push({texto: "Nome inválido."})
+    }*/
+
+    if(!req.body.email || typeof req.body.email == undefined || req.body.email == null){
+        erros.push({texto: "Email inválido."})
+    }
+
+    if(!req.body.senha || typeof req.body.senha == undefined || req.body.senha == null){
+        erros.push({texto: "Senha inválida."})
+    }
+
+    if(req.body.senha.lenght < 8){
+        erros.push({texto: "Senha muito curta, mínimo de 8 caracteres."})
+    }
+
+    if(req.body.senha != req.body.senha2){
+        erros.push({texto: "Senhas não batem."})
+    }
+
+    if(erros.length > 0){
+        res.render('commom-area/register', {erros: erros})
+
+    }else{
+        User.findOne({email: req.body.email}).then(function(admin){
+            if(admin){
+                req.flash("error_msg", "Já existe uma conta com esse email")
+                res.redirect('/website/registro')
+            }else{
+                const newUser = new User({
+                    email: req.body.email,
+                    senha: req.body.senha
+                })
+
+                bcrypt.genSalt(10, (erro, salt) => {
+                    bcrypt.hash(newUser.senha, salt, (erro, hash) => {
+                        if(erro){
+                            req.flash('error_msg', 'Houve um erro durante o salvamento.')
+                            res.redirect('/website/registro')
+                        }
+
+                        newUser.senha = hash
+
+                        newUser.save().then(function(){
+                            req.flash('success_msg', 'Usuário criado com sucesso!')
+                            res.redirect('/admin/login')
+                        }).catch(function(err){
+                            req.flash('error_msg', 'Houve um erro ao criar usuário, tente novamente.')
+                            console.log(err)
+                            res.redirect('/admin/cadastro')
+                        })
+                    })
+                })
+            }
+        }).catch(function(err){
+            req.flash('error_msg', "Houve um erro interno.")
+            res.redirect('/')
+        })
     }
 })
 
 
-router.post('/login', async(req, res) => {
-    const {email, password} = req.body;
-    firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential) => {
-        var user = userCredential.user;
-    }).catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-    });
-    res.redirect('/painel')
+router.post('/login', function(req, res, next) {
+    passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/website/login',
+        failureFlash: true
+    })(req, res, next)
 })
 
 
@@ -50,3 +93,6 @@ router.get('/criarwebsite', (req, res) => {
 router.get('/painel', (req, res) => {
     res.render('./views/admin-area/painel')
 })
+
+
+module.exports = router;

@@ -4,12 +4,12 @@ const Schema = mongoose.Schema
 const User = new Schema({
     nome: {
         type: String,
-        required: true
+        required: false
     },
 
     email: {
         type: String,
-        requried: true
+        required: true
     },
 
     senha: {
@@ -19,7 +19,7 @@ const User = new Schema({
 
     instagram: {
         type: String,
-        requried: true
+        required: false
     },
 
     eAdmin: {

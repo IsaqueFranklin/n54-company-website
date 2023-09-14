@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 const website = require('./routes/website');
 const admin = require('./routes/admin');
 const passport = require('passport')
-require('./config/auth');(passport)
+require('./config/auth')(passport);
 
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config();
@@ -25,6 +25,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }))
+
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -69,8 +70,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 //routes
 
-app.route('/website', website)
-app.route('/admin', admin)
+app.use('/website', website)
+app.use('/admin', admin)
 
 app.get('/', (req, res) => {
     res.render('index')
