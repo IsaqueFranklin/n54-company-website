@@ -1,4 +1,5 @@
 const express = require('express');
+const router = express.Router()
 const {engine} = require('express-handlebars');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -10,6 +11,10 @@ const website = require('./routes/website');
 const admin = require('./routes/admin');
 const passport = require('passport')
 require('./config/auth');(passport)
+
+if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config();
+}
 
 const app = express();
 
@@ -47,11 +52,15 @@ app.set("views", "./views");
 
 //Mongoose
 
+const mongoId = process.env.mongoId;
+
 mongoose.Promise = global.Promise
-mongoose.connect('').then(function(){
+mongoose.connect(mongoId).then(function(){
     console.log('Conectado ao mongo...')
 }).catch(function(err){
     console.log('Erro ao conectar com mongo.')
+    console.log(err)
+    console.log(mongoId)
 })
 
 //Public
