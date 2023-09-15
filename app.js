@@ -28,7 +28,7 @@ app.use(session({
 
 
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 
 //Middleware

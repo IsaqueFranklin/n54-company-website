@@ -69,9 +69,9 @@ router.post('/cadastro', (req, res, next) => {
                                 failureFlash: true
                             })(req, res, next)
                         }).catch(function(err){
-                            req.flash('error_msg', 'Houve um erro ao criar usuário, tente novamente.')
+                            req.flash('info', 'Houve um erro ao criar usuário, tente novamente.')
                             console.log(err)
-                            res.redirect('/admin/cadastro')
+                            res.redirect('/admin/cadastro', { messages: req.flash('info') })
                         })
                     })
                 })
@@ -92,9 +92,15 @@ router.post('/login', function(req, res, next) {
     })(req, res, next)
 })
 
+router.get('/logout', eUser, function(req, res){
+    req.logout().then(() => {
+        req.flash('success_msg', 'Deslogado com sucesso.')
+        res.redirect('/')
+    })
+})
+
 
 router.get('/criarwebsite', eUser, (req, res) => {
-    console.log(req.user.email)
     res.render('admin-area/criarwebsite')
 })
 
