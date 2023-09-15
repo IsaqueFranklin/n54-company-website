@@ -13,7 +13,7 @@ require('../models/user')
 const User = mongoose.model('users')
 
 
-router.post('/cadastro', (req, res) => {
+router.post('/cadastro', (req, res, next) => {
     var erros = []
 
     /*if(!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null){
@@ -63,8 +63,11 @@ router.post('/cadastro', (req, res) => {
 
                         newUser.save().then(function(){
                             req.flash('success_msg', 'Usuário criado com sucesso!')
-                            res.redirect('/website/login')
-                            console.log(user)
+                            passport.authenticate('local', {
+                                successRedirect: '/admin/criarwebsite',
+                                failureRedirect: '/website/login',
+                                failureFlash: true
+                            })(req, res, next)
                         }).catch(function(err){
                             req.flash('error_msg', 'Houve um erro ao criar usuário, tente novamente.')
                             console.log(err)
@@ -83,7 +86,7 @@ router.post('/cadastro', (req, res) => {
 
 router.post('/login', function(req, res, next) {
     passport.authenticate('local', {
-        successRedirect: '/admin/criarwebsite',
+        successRedirect: '/admin/painel',
         failureRedirect: '/website/login',
         failureFlash: true
     })(req, res, next)
@@ -95,7 +98,7 @@ router.get('/criarwebsite', eUser, (req, res) => {
     res.render('admin-area/criarwebsite')
 })
 
-router.get('/painel', (req, res) => {
+router.get('/painel', eUser, (req, res) => {
     res.render('admin-area/painel')
 })
 
