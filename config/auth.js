@@ -27,10 +27,12 @@ module.exports = function(passport){
         done(null, usuario._id);
     })
 
-    passport.deserializeUser(function(id, done){
-        User.findById(id).exec()
-        function(err, usuario){
-            done(err, usuario)
+    passport.deserializeUser(async (id, done) => {
+        try {
+          const usuario = await User.findById(id);
+          done(null, usuario);
+        } catch (err) {
+          done(err, null);
         }
-    })
+      });
 }

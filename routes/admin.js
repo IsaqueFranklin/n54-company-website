@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 
 const bcrypt = require('bcryptjs')
 const passport = require('passport')
+const { eUser } = require('../helpers/eUser')
 
 const moment = require('moment')
 
@@ -45,7 +46,9 @@ router.post('/cadastro', (req, res) => {
                 res.redirect('/website/registro')
             }else{
                 const newUser = new User({
+                    nome: req.body.nome,
                     email: req.body.email,
+                    instagram: req.body.instagram,
                     senha: req.body.senha
                 })
 
@@ -60,7 +63,8 @@ router.post('/cadastro', (req, res) => {
 
                         newUser.save().then(function(){
                             req.flash('success_msg', 'Usuário criado com sucesso!')
-                            res.redirect('/admin/login')
+                            res.redirect('/website/login')
+                            console.log(user)
                         }).catch(function(err){
                             req.flash('error_msg', 'Houve um erro ao criar usuário, tente novamente.')
                             console.log(err)
@@ -79,19 +83,20 @@ router.post('/cadastro', (req, res) => {
 
 router.post('/login', function(req, res, next) {
     passport.authenticate('local', {
-        successRedirect: '/',
+        successRedirect: '/admin/criarwebsite',
         failureRedirect: '/website/login',
         failureFlash: true
     })(req, res, next)
 })
 
 
-router.get('/criarwebsite', (req, res) => {
-    res.render('./views/admin-area/criarwebsite')
+router.get('/criarwebsite', eUser, (req, res) => {
+    console.log(req.user.email)
+    res.render('admin-area/criarwebsite')
 })
 
 router.get('/painel', (req, res) => {
-    res.render('./views/admin-area/painel')
+    res.render('admin-area/painel')
 })
 
 
