@@ -93,7 +93,7 @@ router.post('/login', function(req, res, next) {
 })
 
 router.get('/logout', eUser, function(req, res){
-    req.logout().then(() => {
+    req.logout(() => {
         req.flash('success_msg', 'Deslogado com sucesso.')
         res.redirect('/')
     })

@@ -1,1 +1,197 @@
-<h1>Está vivo!</h1>
+<script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" />
+
+<!-- page -->
+<main class="min-h-screen w-full bg-white text-gray-700" x-data="layout">
+    <!-- header page -->
+    <header class="flex w-full items-center justify-between border-b-2 border-gray-200 bg-white p-2">
+        <!-- logo -->
+        <div class="flex items-center space-x-2">
+            <button type="button" class="text-3xl" @click="asideOpen = !asideOpen"><i class="bx bx-menu"></i></button>
+            <a href="/" class="navbar-brand flex items-center" style="text-decoration: none;">
+                <span class="self-center text-3xl font-semibold whitespace-nowrap dark:text-white" style="color: rgb(8 51 68);">N54</span>
+            </a>
+        </div>
+
+        <!-- button profile -->
+        <div>
+            <button type="button" @click="profileOpen = !profileOpen" @click.outside="profileOpen = false"
+                class="h-9 w-9 overflow-hidden rounded-full">
+                <img src="https://plchldr.co/i/40x40?bg=111111" alt="plchldr.co" />
+            </button>
+
+            <!-- dropdown profile -->
+            <div class="absolute right-2 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-white shadow-md"
+                x-show="profileOpen" x-transition>
+                <div class="flex items-center space-x-2 p-2">
+                    <img src="https://plchldr.co/i/40x40?bg=111111" alt="plchldr.co" class="h-9 w-9 rounded-full" />
+                    <div class="font-medium">Usuário</div>
+                </div>
+
+                <div class="flex flex-col space-y-3 p-2">
+                    <a href="#" class="transition hover:text-blue-600">Meu Perfil</a>
+                    <a href="#" class="transition hover:text-blue-600">Editar Perfil</a>
+                    <a href="#" class="transition hover:text-blue-600">Configurações</a>
+                </div>
+
+                <div class="p-2">
+                    <button class="flex items-center space-x-2 transition hover:text-blue-600">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                            </path>
+                        </svg>
+                        <div>Sair</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex">
+        <!-- aside -->
+        <aside class="flex w-72 flex-col space-y-2 border-r-2 border-gray-200 bg-white p-2" style="height: 90.5vh"
+            x-show="asideOpen">
+            <a href="/admin/painel" class="flex items-center space-x-1 rounded-md px-3 py-3 hover:bg-blue-100 font-500 whitespace-nowrap tracking-tight text-gray-800 text-xl" style="color: rgb(8 51 68); text-decoration: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                </svg>
+                <span style="text-decoration: none;">Painel/home</span>
+            </a>
+
+            <a href="/admin/criarwebsite" class="flex items-center space-x-1 rounded-md px-3 py-3 hover:bg-blue-100 font-500 whitespace-nowrap tracking-tight text-gray-800 text-xl" style="color: rgb(8 51 68); text-decoration: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                <span>Criar novo site</span>
+            </a>
+
+            <a href="/admin/meus sites" class="flex items-center space-x-1 rounded-md px-3 py-3 hover:bg-blue-100 font-500 whitespace-nowrap tracking-tight text-gray-800 text-xl" style="color: rgb(8 51 68); text-decoration: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776" />
+                </svg>
+
+                <span>Meus sites</span>
+            </a>
+
+            <a href="/admin/chad" class="flex items-center space-x-1 rounded-md px-3 py-3 hover:bg-blue-100 font-500 whitespace-nowrap tracking-tight text-gray-800 text-xl" style="color: rgb(8 51 68); text-decoration: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" />
+                </svg>
+
+                <span>Inteligência Artificial</span>
+            </a>
+
+            <a href="/admin/perfil" class="flex items-center space-x-1 rounded-md px-3 py-3 hover:bg-blue-100 font-500 whitespace-nowrap tracking-tight text-gray-800 text-xl" style="color: rgb(8 51 68); text-decoration: none;">
+                <span class="text-2xl"><i class="bx bx-user"></i></span>
+                <span>Perfil</span>
+            </a>
+
+            <a href="/admin/settings" class="flex items-center space-x-1 rounded-md px-3 py-3 hover:bg-blue-100 font-500 whitespace-nowrap tracking-tight text-gray-800 text-xl" style="color: rgb(8 51 68); text-decoration: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span>Configurações</span>
+            </a>
+
+            <a href="/admin/logout" class="flex items-center space-x-1 rounded-md px-3 py-3 hover:bg-blue-100 font-500 whitespace-nowrap tracking-tight text-gray-800 text-xl" style="color: rgb(8 51 68); text-decoration: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+
+                <span>Sair</span>
+            </a>
+        </aside>
+
+        <!-- main content page -->
+        <div class="w-full p-4 container">
+
+            <section class="bg-white dark:bg-gray-900 container">
+                <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
+                    <div class="bg-white-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8">
+                        <div class="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+                            <div class="max-w-md w-full space-y-8">
+                                <div align="center">
+                                    <span class="self-center text-6xl font-semibold whitespace-nowrap dark:text-white" style="color: rgb(8 51 68); margin-bottom: 50px;">The Chad AI</span>      
+                                    <h2 class="mt-6 text-left text-3xl text-white-900">
+                                    Responda essas perguntas para criar seu site
+                                    </h2>
+                                <p class="mt-2 text-left text-sm text-white-800">
+                                    Seu site será criado com nossa Inteligência Artificial, o Chad em questão de minutos.
+                                </p>
+                                </div>
+                                <form class="mt-8 space-y-6" action="/admin/cadastro" method="POST">
+                                <input type="hidden" name="remember" value="true">
+                                <div class="rounded-md shadow-sm -space-y-px">
+                                    <div>
+                                    <label for="email-address" class="sr-only">Nome</label>
+                                    <input id="email-address" name="nome" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Nome">
+                                    </div>
+                                    <br>
+                                    <div>
+                                    <label for="email-address" class="sr-only">Email</label>
+                                    <input id="email-address" name="email" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email">
+                                    </div>
+                                    <br>
+                                    <div>
+                                    <label for="text" class="sr-only">Seu perfil no Instagram</label>
+                                    <input name="instagram" type="text" autocomplete="current-password"  class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Seu perfil do instagram">
+                                    </div>
+                                    <br>
+                                    <div>
+                                    <label for="password" class="sr-only">Senha (8 caracteres)</label>
+                                    <input id="password" name="senha" type="password" autocomplete="current-password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Senha">
+                                    </div>
+                                    <br>
+                                    <div>
+                                    <label for="password" class="sr-only">Repita a senha</label>
+                                    <input id="password2" name="senha2" type="passwords" autocomplete="current-password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Repita a senha">
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+
+                                    <div class="text-sm">
+                                    <a href="/website/login" class="font-medium text-white-900 hover:text-green-900">
+                                        Como funciona?
+                                    </a>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                                        <!-- Heroicon name: solid/lock-closed -->
+                                        <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    </span>
+                                    Criar site
+                                    </button>
+                                </div>
+                                </form>
+                            </div>
+                            </div>
+                    </div>
+                </div>
+            </section>
+
+             <div style="margin-top: 30px; margin-bottom: 100px;" class="container">
+                <p class="container">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Expedita quam odit officiis magni doloribus ipsa dolore, dolores nihil accusantium labore, incidunt autem iure quae vitae voluptate, esse asperiores aliquam repellat. Harum aliquid non officiis porro at cumque eaque inventore iure. Modi sunt optio mollitia repellat sed ab quibusdam quos harum!</p>
+            </div>
+            
+        </div>
+        
+    </div>
+</main>
+
+<script>
+    document.addEventListener("alpine:init", () => {
+        Alpine.data("layout", () => ({
+            profileOpen: false,
+            asideOpen: true,
+        }));
+    });
+</script>
