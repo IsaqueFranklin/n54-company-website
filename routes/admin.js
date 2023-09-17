@@ -12,6 +12,15 @@ const moment = require('moment')
 require('../models/user')
 const User = mongoose.model('users')
 
+const { OpenAI } = require("openai");
+
+const openai = new OpenAI({
+    apiKey: "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"
+});
+
+//const openai = new OpenAIApi(configuration);
+//const response = await openai.listEngines();
+
 
 router.post('/cadastro', (req, res, next) => {
     var erros = []
@@ -122,6 +131,24 @@ router.get('/perfil', eUser, (req, res) => {
 
 router.get('/settings', eUser, (req, res) => {
     res.render('admin-area/config')
+})
+
+router.post('/chatgpt', async (req, res) => {
+    try {
+        console.log("Até aqui tudo bem.");
+        const chatCompletion = await openai.chat.completions.create({
+            model: "gpt-3.5-turbo",
+            messages: [
+                {"role": "system", "content": "Você é uma inteligência artificial que criar textos para as principais seções de websites, e me retorna cada um separadamente dentro de um arquivo JSON, com base no nome da empresa e de um breve resumo do que ela faz."},
+                {"role": "user", "content": "Escreva os conteúdos de um site de uma empresa foguetes chamada Blastar."},
+            ],
+          });
+          console.log(chatCompletion.choices[0].message.content.nomeEmpresa);
+          res.redirect('/')
+    } catch (error) {
+        console.log(error.message);
+        res.redirect('/website/login')
+    }
 })
 
 

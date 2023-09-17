@@ -22,6 +22,12 @@ const User = new Schema({
         required: false
     },
 
+    sites: {
+        type: Array,
+        required: false,
+        default: 0
+    },
+
     eAdmin: {
         type: Number,
         default: 1

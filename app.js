@@ -57,7 +57,7 @@ const mongoId = process.env.mongoId;
 
 mongoose.Promise = global.Promise
 mongoose.connect(mongoId).then(function(){
-    console.log('Conectado ao mongo...')
+    console.log('Conectado ao mongo')
 }).catch(function(err){
     console.log('Erro ao conectar com mongo.')
     console.log(err)
