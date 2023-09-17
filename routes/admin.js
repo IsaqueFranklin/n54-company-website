@@ -15,7 +15,7 @@ const User = mongoose.model('users')
 const { OpenAI } = require("openai");
 
 const openai = new OpenAI({
-    apiKey: "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"
+    apiKey: "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"
 });
 
 //const openai = new OpenAIApi(configuration);
@@ -133,11 +133,33 @@ router.get('/settings', eUser, (req, res) => {
     res.render('admin-area/config')
 })
 
+router.post('/chad', eUser, async (req, res) => {
+
+    const question = req.body.pergunta;
+
+    try {
+        const chatCompletion = await openai.chat.completions.create({
+            model: "gpt-3.5-turbo",
+            messages: [
+                {"role": "system", "content": "Você retorna todas as suas respostas em uma string com todo o conteúdo devidamente no seu formato html."},
+                {"role": "user", "content": question + "Retorne a resposta dessa pergunta em formato html."},
+            ],
+          });
+
+          const resposta = chatCompletion.choices[0].message.content;
+          console.log(resposta);
+          res.render('admin-area/ia', {respostas: resposta})
+    } catch (error) {
+        console.log(error.message);
+        res.redirect('/website/login')
+    }
+})
+
 router.post('/chatgpt', async (req, res) => {
     try {
         console.log("Até aqui tudo bem.");
         const chatCompletion = await openai.chat.completions.create({
-            model: "gpt-3.5-turbo",
+            model: "gpt-4",
             messages: [
                 {"role": "system", "content": "Você é uma inteligência artificial que criar textos para as principais seções de websites, e me retorna cada um separadamente dentro de um arquivo JSON, com base no nome da empresa e de um breve resumo do que ela faz."},
                 {"role": "user", "content": "Escreva os conteúdos de um site de uma empresa foguetes chamada Blastar."},
