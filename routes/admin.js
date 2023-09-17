@@ -108,5 +108,21 @@ router.get('/painel', eUser, (req, res) => {
     res.render('admin-area/painel')
 })
 
+router.get('/chad', eUser, (req, res) => {
+    res.render('admin-area/ia')
+})
+
+router.get('/sites', eUser, (req, res) => {
+    res.render('admin-area/meusites')
+})
+
+router.get('/perfil', eUser, (req, res) => {
+    res.render('admin-area/perfil')
+})
+
+router.get('/settings', eUser, (req, res) => {
+    res.render('admin-area/config')
+})
+
 
 module.exports = router;
