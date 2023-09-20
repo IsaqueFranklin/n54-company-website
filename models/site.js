@@ -2,35 +2,79 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const Site = new Schema({
-    nome: {
+    titleHero: {
         type: String,
         required: true
     },
 
-    userId: {
+    sloganHero: {
         type: String,
         required: true
     },
 
-    email: {
+    titleAbout: {
         type: String,
         required: true
     },
 
-    userName: {
+    textAbout: {
         type: String,
-        required: false
+        required: true
     },
 
-    hero: {
-        type: Array,
-        required: false,
-        default: 0
+    ctaAbout: {
+        type: String,
+        required: true
     },
 
-    eAdmin: {
-        type: Number,
-        default: 1
+    titleServices: {
+        type: String,
+        required: true
+    },
+
+    textServices: {
+        type: String,
+        required: true
+    },
+
+    ctaServices: {
+        type: String,
+        required: true
+    },
+
+    titleWhyUs: {
+        type: String,
+        required: true
+    },
+
+    textWhyUs: {
+        type: String,
+        required: true
+    },
+
+    titleDiferentials: {
+        type: String,
+        required: true
+    },
+
+    textDiferentials: {
+        type: String,
+        required: true
+    },
+
+    titleGalery: {
+        type: String,
+        required: true
+    },
+
+    titleContact: {
+        type: String,
+        required: true
+    },
+
+    textContact: {
+        type: String,
+        required: true
     }
 })
 
