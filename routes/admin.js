@@ -12,12 +12,10 @@ const moment = require('moment')
 require('../models/user')
 const User = mongoose.model('users')
 
-const { OpenAI } = require("openai");
+const openai = require('openai');
 
 
-const openai = new OpenAI({
-    apiKey: "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"
-});
+openai.apiKey = "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";
 
 //const openai = new OpenAIApi(configuration);
 //const response = await openai.listEngines();
@@ -139,10 +137,7 @@ router.post('/chads', async (req, res) => {
     const question = req.body.pergunta;
 
     const perguntas = [
-        { role: 'system', content: 'Você pode responder às seguintes perguntas:' },
-        { role: 'user', content: "Qual é a capital da França?" },
-        { role: 'user', content: "Quem escreveu a peça 'Romeu e Julieta'?" },
-        { role: 'user', content: question},
+        { role: 'user', content: "crie um site de uma empresa de mangás"},
     ];
       
       // Inicialize um array para armazenar as respostas
@@ -150,11 +145,26 @@ router.post('/chads', async (req, res) => {
 
     try {
 
-        const response = await openai.completions.create({
-            engine: 'text-davinci-002', // Escolha o mecanismo apropriado
-            messages: perguntas,
-            model: 'text-davinci-002',
-        });
+        const response = await fetch('https://api.openai.com/v1/completions', {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + "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",
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                model: 'gpt-3.5-turbo',
+                messages: [
+                    {
+                        role: 'system',
+                        content: 'Você criar conteúdo escrito para templates de sites e envia o conteúdo de cada seção do site em um objeto json separado.',
+                    },
+                    {
+                        role: 'user',
+                        content: perguntas,
+                    },
+                ],
+            }),
+        })
 
         const resposta = response.choices[0].message.content;
 
@@ -169,21 +179,21 @@ router.post('/chads', async (req, res) => {
 })
 
 router.post('/chad', async (req, res) => {
+
+    const prompt = req.body.question;
+
     try {
-        console.log("Até aqui tudo bem.");
-        const chatCompletion = await openai.chat.completions.create({
-            model: 'text-davinci-002',
-            messages: [
-                { role: 'system', content: 'Você pode responder às seguintes perguntas:' },
-                { role: 'user', content: "Qual é a capital da França?" },
-                { role: 'user', content: "Quem escreveu a peça 'Romeu e Julieta'?" },
-                //{ role: 'user', content: question},
-            ],
-          });
-          console.log(chatCompletion.choices[0].message.content);
-          res.redirect('/')
+        const response = await openai.Completion.create({
+            engine: 'text-davinci-002',
+            prompt: prompt,
+            max_tokens: 50,
+        })
+            
+        const resposta = response.choices[0].text
+        console.log(resposta)
+        res.render('admin-area/ia', {respostas: resposta})
     } catch (error) {
-        console.log(error.message);
+        console.error(error);
         res.redirect('/website/login')
     }
 })
